@@ -20,6 +20,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+import random
 import re
 
 from twisted.words.protocols.irc import IRCClient
@@ -58,6 +59,16 @@ def is_haiku(string):
         sylables += count_syllables(word)
 
     return syllables == 17
+
+
+def haiku_time(self):
+    responses = [
+        "That is a haiku! / But I am just a robot / Could be mistaken",
+        "Haiku detected! / That just makes me so happy / (I hope I'm not wrong)",
+        "I have learned English / Just to listen for haiku / This seems like a waste",
+    ]
+
+    return random.choice(responses)
 
 
 class HaikuBot(IRCClient):
@@ -101,7 +112,7 @@ class HaikuBot(IRCClient):
         #    self.msg(channel, 'I <3 you too, {}'.format(user))
 
         elif is_haiku(msg):
-            self.msg(channel, "I think that is a / haiku! But I am just a / poorly coded bot.")
+            self.msg(channel, haiku_time())
 
 
 class HaikuBotFactory(ReconnectingClientFactory):
