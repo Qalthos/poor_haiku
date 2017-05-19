@@ -29,23 +29,33 @@ from twisted.internet import reactor
 
 NOT_ALPHA = re.compile(r'[^a-zA-Z]')
 
+
+def count_sylables(word):
+    word = NOT_ALPHA.sub('', word).lower()
+    if not word:
+        return 0
+
+    if word[-1] == 'e':
+        word = word[:-1]
+
+    # Create a list of either 'x' (vowel) or ' ' (non-vowel) for each letter
+    # in `word`
+    tmp = []
+    for char in word:
+        if char in 'aeiouy':
+            tmp.append('x')
+        else:
+            tmp.append(' ')
+
+    return len(''.join(tmp).split()) or 1
+
+
 def is_haiku(string):
-    words = string.split()
+    words = string.replace('_', ' ').split()
+
     syllables = 0
-
     for word in words:
-        word = NOT_ALPHA.sub('', word).lower()
-        if not word:
-            continue
-
-        if word[-1] == 'e':
-            word = word[:-1]
-
-        # Create a list of either 'x' (vowel) or ' ' (non-vowel) for each letter
-        # in `word`
-        tmp = [" x"[c in "aeiouy"] for c in word]
-
-        syllables += len(''.join(tmp).split()) or 1
+        sylables += count_syllables(word)
 
     return syllables == 17
 
