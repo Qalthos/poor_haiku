@@ -31,7 +31,7 @@ from twisted.internet import reactor
 NOT_ALPHA = re.compile(r'[^a-zA-Z]')
 
 
-def count_sylables(word):
+def count_syllables(word):
     word = NOT_ALPHA.sub('', word).lower()
     if not word:
         return 0
@@ -56,12 +56,12 @@ def is_haiku(string):
 
     syllables = 0
     for word in words:
-        sylables += count_syllables(word)
+        syllables += count_syllables(word)
 
     return syllables == 17
 
 
-def haiku_time(self):
+def haiku_time():
     responses = [
         "That is a haiku! / But I am just a robot / Could be mistaken",
         "Haiku detected! / That just makes me so happy / (I hope I'm not wrong)",
