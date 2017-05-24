@@ -29,6 +29,7 @@ from twisted.internet import reactor
 
 
 NOT_ALPHA = re.compile(r'[^a-zA-Z]')
+SYLLABLE_COUNT = [5, 12, 17]
 
 
 def count_syllables(word):
@@ -54,9 +55,18 @@ def count_syllables(word):
 def is_haiku(string):
     words = string.replace('_', ' ').split()
 
+
     syllables = 0
+    line_number = 0
+    expected_syllables = SYLLABLE_COUNT[line_number]
     for word in words:
         syllables += count_syllables(word)
+
+        if line_number > 2 or syllables > expected_syllables:
+            return False
+        elif syllables == expected_syllables:
+            line_number += 1
+            expected_syllables = SYLLABLE_COUNT[line_number]
 
     return syllables == 17
 
